@@ -1,0 +1,8 @@
+<h3>Search</h3>
+<input placeholder="name" [formControl]="userNameControl" />
+
+<h3>Users</h3>
+
+<div *ngFor="let user of users">
+  <li>{{ user.name }}</li>
+</div>
