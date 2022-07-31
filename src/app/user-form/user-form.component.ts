@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { mergeMap } from 'rxjs/operators';
 import { User } from '../../../user';
 import { UserService } from '../../../user.service';
 
@@ -15,10 +16,8 @@ export class UserFormComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.userNameControl.valueChanges.subscribe((value) =>
-      this.userService.getUsers(''+value).subscribe((users) => {
-        this.users = users;
-      })
-    );
+    this.userNameControl.valueChanges
+      .pipe(mergeMap((value) => this.userService.getUsers(value)))
+      .subscribe((users) => (this.users = users));
   }
 }
