@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { mergeMap, switchMap, debounceTime } from 'rxjs/operators';
+import {
+  mergeMap,
+  switchMap,
+  debounceTime,
+  distinctUntilChanged,
+} from 'rxjs/operators';
 import { User } from '../../../user';
 import { UserService } from '../../../user.service';
 
@@ -19,6 +24,7 @@ export class UserFormComponent implements OnInit {
     this.userNameControl.valueChanges
       .pipe(
         debounceTime(1000),
+        distinctUntilChanged(),
         switchMap((value) => this.userService.getUsers(value))
       )
       .subscribe((users) => (this.users = users));
